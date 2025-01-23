@@ -1,0 +1,8 @@
+[package]
+name = "observer"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+networking = { path = "../networking" }
+protos = { path = "../protos" }

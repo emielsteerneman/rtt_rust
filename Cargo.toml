@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "crates/networking",
+    "crates/observer",
+    "crates/protos"
+]
