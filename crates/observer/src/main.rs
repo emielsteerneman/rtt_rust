@@ -39,7 +39,7 @@ fn main() {
     color_eyre::install().expect("Failed to install color_eyre");
 
     let port: u16 = 22222;
-    println!("Starting observer on port {}", port);
+    tracing::info!("Starting observer on port {}", port);
 
     // Kinda sucks that this needs to be mutable, all because of the stupid
     // UdpHandler::send_buf having to be mutable in the stupid prost::message::Message::encode method.
