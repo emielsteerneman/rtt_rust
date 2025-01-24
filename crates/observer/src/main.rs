@@ -2,27 +2,43 @@ use networking::UdpHandler;
 use protos::messages::SslWrapperPacket;
 
 struct SSLVisionReceiver {
-    handler: UdpHandler
+    handler: UdpHandler,
 }
 
 impl SSLVisionReceiver {
     pub fn new(port: u16) -> Self {
-        SSLVisionReceiver { handler: UdpHandler::new(port) }
+        SSLVisionReceiver {
+            handler: UdpHandler::new(port),
+        }
     }
 
     pub fn run(&mut self) {
         loop {
             // Receive packets from the network
-            let message = self.handler.listen::<SslWrapperPacket>();
-            if let Some(message) = message {
-                println!("D: {:?}; G: {:?}", message.detection.is_some(), message.geometry.is_some());
+            match self.handler.listen::<SslWrapperPacket>() {
+                Ok(Some(message)) => {
+                    tracing::info!(
+                        "D: {:?}; G: {:?}",
+                        message.detection.is_some(),
+                        message.geometry.is_some()
+                    );
+                }
+                Ok(None) => {
+                    // No packet received
+                }
+                Err(e) => {
+                    tracing::error!("Error receiving packet: {}", e);
+                }
             }
         }
     }
 }
 
 fn main() {
-    let port:u16 = 22222;
+    tracing_subscriber::fmt::init();
+    color_eyre::install().expect("Failed to install color_eyre");
+
+    let port: u16 = 22222;
     println!("Starting observer on port {}", port);
 
     // Kinda sucks that this needs to be mutable, all because of the stupid
