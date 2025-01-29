@@ -4,5 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+color-eyre = "0.6.3"
 networking = { path = "../networking" }
 protos = { path = "../protos" }
+tracing = "0.1.41"
+tracing-subscriber = "0.3.19"

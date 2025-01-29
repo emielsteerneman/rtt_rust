@@ -1,4 +1,5 @@
 target
+rust-analyzer-target
 python_protos
 .DS_Store
 __pycache__
