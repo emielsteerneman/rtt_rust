@@ -5,6 +5,12 @@ fn main() {
     // ./target/debug/build/protos-<hash>/out
 
     // Correction, now with the SSL stuff its suddenly _.rs ???
-    prost_build::compile_protos(&["proto/ssl_vision_wrapper.proto"], &["proto"])
-        .expect("Failed to compile Protobuf files");
+    prost_build::compile_protos(
+        &[
+            "proto/ssl_vision_wrapper.proto",
+            "proto/ssl_gc_referee_message.proto",
+        ],
+        &["proto"],
+    )
+    .expect("Failed to compile Protobuf files");
 }
