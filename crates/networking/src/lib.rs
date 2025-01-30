@@ -22,7 +22,7 @@ impl UdpHandler {
 
     pub async fn listen<T: Message + Default>(&self) -> anyhow::Result<T> {
         let mut buf = [0; 4096]; // <- Can we do this once somewhere, and not every time we call listen?
-        
+
         // Receive a message from the socket
         Ok(match self.socket.recv_from(&mut buf).await {
             // A message was successfully received
@@ -34,7 +34,7 @@ impl UdpHandler {
                     // If the message could not be decoded, return Error
                     Err(_) => anyhow::bail!("Could not decode message"),
                 }
-            },
+            }
             // An error occurred while receiving the message
             Err(e) => {
                 tracing::error!("Error receiving data: {}", e);

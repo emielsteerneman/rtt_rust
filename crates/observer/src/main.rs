@@ -30,17 +30,14 @@ async fn handle_receive_vision(
             if wrapper_packet.geometry.is_some() {
                 *latest_data.geometry.borrow_mut() = wrapper_packet.geometry.clone();
             }
-        },
+        }
         Err(e) => {
             tracing::error!("Error receiving detection frame: {}", e);
         }
     }
 }
 
-async fn handle_receive_referee(
-    latest_data: &LatestData,
-    referee_packet: anyhow::Result<Referee>,
-) {
+async fn handle_receive_referee(latest_data: &LatestData, referee_packet: anyhow::Result<Referee>) {
     match referee_packet {
         Ok(referee_packet) => {
             tracing::info!("Received referee packet");
@@ -81,10 +78,9 @@ async fn main() -> anyhow::Result<()> {
     let vision_receiver = UdpHandler::new(port_ssl_vision).await?;
     let referee_receiver = UdpHandler::new(port_referee).await?;
 
-    let mut interval = tokio::time::interval(Duration::from_secs_f32(1./60.));
+    let mut interval = tokio::time::interval(Duration::from_secs_f32(1. / 60.));
 
     loop {
-        
         // Receive any packets from the SSL Vision or Referee
         tokio::select! {
             // Always try to send out data first
@@ -95,7 +91,7 @@ async fn main() -> anyhow::Result<()> {
                 // Since we're here, this branch of tokio::select! will complete first, thus the other
                 // branches will be skipped. This means that we will receive no new data, so we can skip the
                 // rest of the loop. Go straight to the next loop to receive new data.
-                continue; 
+                continue;
             }
 
             wrapper_packet = vision_receiver.listen::<SslWrapperPacket>() => {
