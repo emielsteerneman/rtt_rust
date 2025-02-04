@@ -4,5 +4,6 @@ resolver = "2"
 members = [
     "crates/networking",
     "crates/observer",
-    "crates/protos"
+    "crates/protos",
+    "crates/common",
 ]
