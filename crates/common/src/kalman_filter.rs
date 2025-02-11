@@ -14,7 +14,7 @@ pub struct KalmanFilter<const S: usize, const O: usize> {
     pub R: SMatrix<f32, O, O>, // Observation Noise Covariance. Keeps track of how noisy the observations are.
 
     // These are only really used in extended Kalman Filters or when we add control input.
-    pub B: SMatrix<f32, S, S>,  // State transition jacobian
+    pub B: SMatrix<f32, S, S>, // State transition jacobian
     pub y: SVector<f32, O>, // Innovation. Not strictly necessary to store but often used to measure performance
 }
 
@@ -97,7 +97,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn my_test(){
+    fn my_test() {
         let mut filter = KalmanFilter::<1, 1>::new(
             SVector::from_vec(vec![60.0]),  // Initial guess
             SMatrix::from_vec(vec![225.0]), // Variance
@@ -111,6 +111,5 @@ mod tests {
         filter.R[0] = 25.0;
 
         assert!(filter.state()[0] == 60.0);
-        
     }
 }
