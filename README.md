@@ -28,7 +28,7 @@
 │   │       │   └── vision
 │   │       │       ├── Camera.h
 │   │       │       ├── CameraMap.h
-│   │       │       ├── CameraObjectFilter.h
+│   │       │       ├── CameraObjectFilter.h ✅
 │   │       │       ├── DetectionFrame.h
 │   │       │       ├── GeometryFilter.h
 │   │       │       ├── KalmanFilter.h ✅
@@ -64,7 +64,7 @@
 │   │   │   └── vision
 │   │   │       ├── Camera.cpp
 │   │   │       ├── CameraMap.cpp
-│   │   │       ├── CameraObjectFilter.cpp
+│   │   │       ├── CameraObjectFilter.cpp ✅
 │   │   │       ├── DetectionFrame.cpp
 │   │   │       ├── GeometryFilter.cpp
 │   │   │       ├── PosVelFilter1D.cpp ✅
