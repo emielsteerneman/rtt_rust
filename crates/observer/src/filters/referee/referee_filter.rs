@@ -2,12 +2,11 @@ use protos::messages::Referee;
 
 #[derive(Default)]
 pub struct RefereeFilter {
-    first_message_received:bool,
-    last_message:Referee,
+    first_message_received: bool,
+    last_message: Referee,
 }
 
 impl RefereeFilter {
-
     pub fn update(&mut self, message: &Referee) {
         self.first_message_received = true;
         self.last_message = message.clone();
@@ -19,5 +18,4 @@ impl RefereeFilter {
             false => None,
         }
     }
-
 }
