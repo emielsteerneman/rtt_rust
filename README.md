@@ -50,7 +50,7 @@
 │   │       │           ├── RobotFilter.h
 │   │       │           ├── RobotObservation.h
 │   │       │           ├── RobotOrientationFilter.h
-│   │       │           └── RobotPos.h
+│   │       │           └── RobotPos.h ✅
 │   │       └── parameters
 │   │           └── RobotParameterDatabase.h ✅
 │   ├── src
@@ -85,7 +85,7 @@
 │   │   │           ├── RobotFilter.cpp
 │   │   │           ├── RobotObservation.cpp
 │   │   │           ├── RobotOrientationFilter.cpp
-│   │   │           └── RobotPos.cpp
+│   │   │           └── RobotPos.cpp ✅
 │   │   └── parameters
 │   │       └── RobotParameterDatabase.cpp ✅
 │   └── test
