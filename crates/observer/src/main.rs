@@ -1,3 +1,7 @@
+//! The observer is responsible for receiving data from the SSL Vision and Referee systems, and
+//! sending it to the RoboTeam AI. It is also responsible for processing the data and making it
+//! available to the RoboTeam AI.
+
 // System libraries
 use std::cell::RefCell;
 
