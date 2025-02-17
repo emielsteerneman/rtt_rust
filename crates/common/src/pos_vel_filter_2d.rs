@@ -1,12 +1,12 @@
 #![allow(dead_code)]
 
 use super::kalman_filter::KalmanFilter;
+use nalgebra::{max, Matrix4, Vector2, Vector4};
+use std::time::{Duration, Instant};
 
-use nalgebra::{max, SMatrix, SVector};
-
-struct PosVelFilter2D {
+pub struct PosVelFilter2D {
     filter: KalmanFilter<4, 2>,
-    last_updated_time: std::time::Instant,
+    last_updated_time: Instant,
     model_error: f32,
 }
 
@@ -14,7 +14,7 @@ impl Default for PosVelFilter2D {
     fn default() -> Self {
         Self {
             filter: KalmanFilter::default(),
-            last_updated_time: std::time::Instant::now(),
+            last_updated_time: Instant::now(),
             model_error: f32::default(),
         }
     }
@@ -22,11 +22,11 @@ impl Default for PosVelFilter2D {
 
 impl PosVelFilter2D {
     pub fn new(
-        initial_state: SVector<f32, 4>,
-        initial_covariance: SMatrix<f32, 4, 4>,
+        initial_state: Vector4<f32>,
+        initial_covariance: Matrix4<f32>,
         model_error: f32,
         measurement_error: f32,
-        timestamp: std::time::Instant,
+        timestamp: Instant,
     ) -> Self {
         let mut filter = KalmanFilter::new(initial_state, initial_covariance);
 
@@ -40,7 +40,7 @@ impl PosVelFilter2D {
         }
     }
 
-    pub fn predict(&mut self, time: std::time::Instant) -> bool {
+    pub fn predict(&mut self, time: Instant) -> bool {
         let dt = (time - self.last_updated_time).as_secs_f32();
 
         if dt < 0. {
@@ -55,7 +55,7 @@ impl PosVelFilter2D {
         true
     }
 
-    pub fn update(&mut self, position: SVector<f32, 2>) {
+    pub fn update(&mut self, position: Vector2<f32>) {
         self.filter.update(position);
     }
 
@@ -92,30 +92,27 @@ impl PosVelFilter2D {
         self.filter.Q[(3, 3)] = dt1;
     }
 
-    pub fn get_state(&self) -> &SVector<f32, 4> {
+    pub fn get_state(&self) -> &Vector4<f32> {
         self.filter.state()
     }
 
-    pub fn set_state(&mut self, state: SVector<f32, 4>) {
+    pub fn set_state(&mut self, state: Vector4<f32>) {
         self.filter.set_state(state);
     }
 }
 
 /* Position implementation */
 impl PosVelFilter2D {
-    pub fn get_position(&self) -> SVector<f32, 2> {
+    pub fn get_position(&self) -> Vector2<f32> {
         self.filter.state().fixed_view::<2, 1>(0, 0).into()
     }
 
-    pub fn get_position_estimate(&self, time: std::time::Instant) -> SVector<f32, 2> {
-        let dt = max(
-            time - self.last_updated_time,
-            std::time::Duration::from_secs(0),
-        );
+    pub fn get_position_estimate(&self, time: Instant) -> Vector2<f32> {
+        let dt = max(time - self.last_updated_time, Duration::from_secs(0));
         self.get_position() + self.get_velocity() * dt.as_secs_f32()
     }
 
-    pub fn get_position_uncertainty(&self) -> SVector<f32, 2> {
+    pub fn get_position_uncertainty(&self) -> Vector2<f32> {
         self.filter
             .covariance()
             .diagonal()
@@ -123,7 +120,7 @@ impl PosVelFilter2D {
             .map(|x| x.sqrt())
     }
 
-    pub fn set_position(&mut self, position: SVector<f32, 2>) {
+    pub fn set_position(&mut self, position: Vector2<f32>) {
         self.filter.modify_state(0, position[0]);
         self.filter.modify_state(1, position[1]);
     }
@@ -131,11 +128,11 @@ impl PosVelFilter2D {
 
 /* Velocity implementation */
 impl PosVelFilter2D {
-    pub fn get_velocity(&self) -> SVector<f32, 2> {
+    pub fn get_velocity(&self) -> Vector2<f32> {
         self.filter.state().fixed_view::<2, 1>(2, 1).into()
     }
 
-    pub fn get_velocity_uncertainty(&self) -> SVector<f32, 2> {
+    pub fn get_velocity_uncertainty(&self) -> Vector2<f32> {
         self.filter
             .covariance()
             .diagonal()
@@ -143,7 +140,7 @@ impl PosVelFilter2D {
             .map(|x| x.sqrt())
     }
 
-    pub fn set_velocity(&mut self, velocity: SVector<f32, 2>) {
+    pub fn set_velocity(&mut self, velocity: Vector2<f32>) {
         self.filter.modify_state(2, velocity[0]);
         self.filter.modify_state(3, velocity[1]);
     }

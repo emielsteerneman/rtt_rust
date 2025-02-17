@@ -1,12 +1,12 @@
 #![allow(dead_code)]
 
 use super::kalman_filter::KalmanFilter;
+use nalgebra::{max, Matrix2, SVector, Vector2};
+use std::time::{Duration, Instant};
 
-use nalgebra::{max, SMatrix, SVector};
-
-struct PosVelFilter1D {
+pub struct PosVelFilter1D {
     filter: KalmanFilter<2, 1>,
-    last_updated_time: std::time::Instant,
+    last_updated_time: Instant,
     model_error: f32,
 }
 
@@ -14,7 +14,7 @@ impl Default for PosVelFilter1D {
     fn default() -> Self {
         Self {
             filter: KalmanFilter::default(),
-            last_updated_time: std::time::Instant::now(),
+            last_updated_time: Instant::now(),
             model_error: f32::default(),
         }
     }
@@ -22,11 +22,11 @@ impl Default for PosVelFilter1D {
 
 impl PosVelFilter1D {
     pub fn new(
-        initial_state: SVector<f32, 2>,
-        initial_covariance: SMatrix<f32, 2, 2>,
+        initial_state: Vector2<f32>,
+        initial_covariance: Matrix2<f32>,
         model_error: f32,
         measurement_error: f32,
-        timestamp: std::time::Instant,
+        timestamp: Instant,
     ) -> Self {
         let mut filter = KalmanFilter::new(initial_state, initial_covariance);
 
@@ -39,7 +39,7 @@ impl PosVelFilter1D {
         }
     }
 
-    pub fn predict(&mut self, time: std::time::Instant) -> bool {
+    pub fn predict(&mut self, time: Instant) -> bool {
         let dt = (time - self.last_updated_time).as_secs_f32();
 
         if dt < 0. {
@@ -81,19 +81,19 @@ impl PosVelFilter1D {
         self.filter.Q[(1, 1)] = dt1;
     }
 
-    pub fn get_state(&self) -> &SVector<f32, 2> {
+    pub fn get_state(&self) -> &Vector2<f32> {
         self.filter.state()
     }
 
-    pub fn set_state(&mut self, state: SVector<f32, 2>) {
+    pub fn set_state(&mut self, state: Vector2<f32>) {
         self.filter.set_state(state);
     }
 
-    pub fn get_covariance(&self) -> &SMatrix<f32, 2, 2> {
+    pub fn get_covariance(&self) -> &Matrix2<f32> {
         self.filter.covariance()
     }
 
-    pub fn set_covariance(&mut self, covariance: SMatrix<f32, 2, 2>) {
+    pub fn set_covariance(&mut self, covariance: Matrix2<f32>) {
         self.filter.set_covariance(covariance);
     }
 
@@ -101,7 +101,7 @@ impl PosVelFilter1D {
         self.filter.y[(0, 0)]
     }
 
-    pub fn last_updated_time(&self) -> std::time::Instant {
+    pub fn last_updated_time(&self) -> Instant {
         self.last_updated_time
     }
 }
@@ -112,11 +112,8 @@ impl PosVelFilter1D {
         self.filter.state()[0]
     }
 
-    pub fn get_position_estimate(&self, time: std::time::Instant) -> f32 {
-        let dt = max(
-            time - self.last_updated_time,
-            std::time::Duration::from_secs(0),
-        );
+    pub fn get_position_estimate(&self, time: Instant) -> f32 {
+        let dt = max(time - self.last_updated_time, Duration::from_secs(0));
         self.get_position() + self.get_velocity() * dt.as_secs_f32()
     }
 
