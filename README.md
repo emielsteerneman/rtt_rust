@@ -3,7 +3,7 @@
 
 - TwoTeamParameters + RobotParametersDatabase feels double / overcomplicated. Simply by moving everything to a single struct?
 - Referee filter doesn't actually do anything. It's just a wrapper around a proto referee packet. Remove?
-
+- PosVelFilter1D: Maybe rename? It's also used for rotation in RobotOrientationFilter, so name doesn't make sense.
 
 ```
 🆗 Doesn't need to be copied
@@ -49,7 +49,7 @@
 │   │       │           ├── FilteredRobot.h
 │   │       │           ├── RobotFilter.h
 │   │       │           ├── RobotObservation.h
-│   │       │           ├── RobotOrientationFilter.h
+│   │       │           ├── RobotOrientationFilter.h ✅
 │   │       │           └── RobotPos.h ✅
 │   │       └── parameters
 │   │           └── RobotParameterDatabase.h ✅
@@ -84,7 +84,7 @@
 │   │   │           ├── FilteredRobot.cpp
 │   │   │           ├── RobotFilter.cpp
 │   │   │           ├── RobotObservation.cpp
-│   │   │           ├── RobotOrientationFilter.cpp
+│   │   │           ├── RobotOrientationFilter.cpp ✅
 │   │   │           └── RobotPos.cpp ✅
 │   │   └── parameters
 │   │       └── RobotParameterDatabase.cpp ✅
