@@ -5,6 +5,7 @@
 // System libraries
 use std::cell::RefCell;
 
+use common::pos_vel_filter_1d::PosVelFilter1D;
 // Local libraries
 use protos::messages::Referee;
 use protos::messages::{SslDetectionFrame, SslGeometryData, SslWrapperPacket};
@@ -12,6 +13,9 @@ use protos::messages::{SslDetectionFrame, SslGeometryData, SslWrapperPacket};
 use tokio::time::Duration;
 
 use networking::UdpHandler;
+
+mod filters;
+
 
 struct LatestData {
     detection: RefCell<Option<SslDetectionFrame>>,
