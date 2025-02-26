@@ -4,6 +4,7 @@
 - TwoTeamParameters + RobotParametersDatabase feels double / overcomplicated. Simply by moving everything to a single struct?
 - Referee filter doesn't actually do anything. It's just a wrapper around a proto referee packet. Remove?
 - PosVelFilter1D: Maybe rename? It's also used for rotation in RobotOrientationFilter, so name doesn't make sense.
+- GeometryFilter: Kinda weird that `SslGeometryData.calib` is stored twice, in `combined_geometry` and `cameras`
 
 ```
 🆗 Doesn't need to be copied
@@ -30,7 +31,7 @@
 │   │       │       ├── CameraMap.h
 │   │       │       ├── CameraObjectFilter.h ✅
 │   │       │       ├── DetectionFrame.h
-│   │       │       ├── GeometryFilter.h
+│   │       │       ├── GeometryFilter.h ✅
 │   │       │       ├── KalmanFilter.h ✅
 │   │       │       ├── PosVelFilter1D.h ✅
 │   │       │       ├── PosVelFilter2D.h ✅
@@ -66,7 +67,7 @@
 │   │   │       ├── CameraMap.cpp
 │   │   │       ├── CameraObjectFilter.cpp ✅
 │   │   │       ├── DetectionFrame.cpp
-│   │   │       ├── GeometryFilter.cpp
+│   │   │       ├── GeometryFilter.cpp ✅
 │   │   │       ├── PosVelFilter1D.cpp ✅
 │   │   │       ├── PosVelFilter2D.cpp ✅
 │   │   │       ├── RobotFeedbackFilter.cpp
