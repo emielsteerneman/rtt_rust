@@ -9,6 +9,7 @@
 ```
 🆗 Doesn't need to be copied
 ✅ Copied
+🟨 Copied, but full of todo!'s
 ❌ Could not copy
 
 ├── CMakeLists.txt 🆗
@@ -20,7 +21,7 @@
 │   ├── CMakeLists.txt
 │   ├── include
 │   │   └── observer
-│   │       ├── Observer.h
+│   │       ├── Observer.h 🟨
 │   │       ├── data
 │   │       │   └── RobotParameters.h ✅
 │   │       ├── filters
@@ -55,7 +56,7 @@
 │   │       └── parameters
 │   │           └── RobotParameterDatabase.h ✅
 │   ├── src
-│   │   ├── Observer.cpp
+│   │   ├── Observer.cpp 🟨
 │   │   ├── data
 │   │   │   └── RobotParameters.cpp ✅
 │   │   ├── filters
