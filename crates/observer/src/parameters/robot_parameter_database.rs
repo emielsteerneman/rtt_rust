@@ -1,4 +1,4 @@
-use protos::messages::Referee;
+use protos::gamecontroller::Referee;
 
 use super::robot_parameters::RobotParameters;
 

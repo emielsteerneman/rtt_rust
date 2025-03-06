@@ -1,21 +1,25 @@
-//! The observer is responsible for receiving data from the SSL Vision and Referee systems, and
-//! sending it to the RoboTeam AI. It is also responsible for processing the data and making it
-//! available to the RoboTeam AI.
+/*! 
+The observer is responsible for receiving data from multiple sources and turning it into a single source of truth.
+
+The sources consumed by the observer are:
+- A source of SSL Vision data. During a match, this would be from the SSL Vision software.
+- A source of referee data. During a match, this would be from the Game Controller software.
+- A source of feedback data. During a match, this would be from the robots themselves.
+All these sources can be replaced by simulators, log playbacks, or other sources of data.
+!*/
+
+mod filters;
+mod observer;
+mod parameters;
 
 // System libraries
 use std::cell::RefCell;
-
-use common::pos_vel_filter_1d::PosVelFilter1D;
 // Local libraries
-use protos::messages::Referee;
-use protos::messages::{SslDetectionFrame, SslGeometryData, SslWrapperPacket};
-
-use tokio::time::Duration;
-
 use networking::UdpHandler;
-
-mod filters;
-
+use protos::gamecontroller::Referee;
+use protos::sslvision::{SslDetectionFrame, SslGeometryData, SslWrapperPacket};
+// Third-party libraries
+use tokio::time::Duration;
 
 struct LatestData {
     detection: RefCell<Option<SslDetectionFrame>>,
@@ -23,6 +27,11 @@ struct LatestData {
     referee: RefCell<Option<Referee>>,
 }
 
+/** Handles the reception of a detection frame or geometry frame from the SSL Vision software.
+# Arguments
+* `latest_data` - The shared data structure to store the latest data.
+* `wrapper_packet` - The SSL Wrapper Packet containing the detection frame and/or geometry frame.
+**/
 async fn handle_receive_vision(
     latest_data: &LatestData,
     wrapper_packet: anyhow::Result<SslWrapperPacket>,

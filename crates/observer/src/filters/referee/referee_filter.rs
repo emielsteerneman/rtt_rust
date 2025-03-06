@@ -1,4 +1,4 @@
-use protos::messages::Referee;
+use protos::gamecontroller::Referee;
 
 #[derive(Default)]
 pub struct RefereeFilter {

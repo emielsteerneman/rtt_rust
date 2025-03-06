@@ -62,7 +62,7 @@ impl RobotObservation {
         time_captured: Instant,
         time_sent: Instant,
         team_color: TeamColor,
-        detection: protos::messages::SslDetectionRobot,
+        detection: protos::sslvision::SslDetectionRobot,
     ) -> Self {
         Self {
             camera_id,

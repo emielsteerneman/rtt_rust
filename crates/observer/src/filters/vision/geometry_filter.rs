@@ -1,10 +1,10 @@
 use std::collections::HashMap;
 
-use protos::messages::SslGeometryData;
-use protos::messages::SslGeometryCameraCalibration;
+use protos::sslvision::SslGeometryCameraCalibration;
+use protos::sslvision::SslGeometryData;
 
 #[derive(Default)]
-struct GeometryFilter {
+pub struct GeometryFilter {
     geometry_received: bool,
     combined_geometry: SslGeometryData,
     cameras: HashMap<u32, SslGeometryCameraCalibration>,
@@ -29,9 +29,9 @@ impl GeometryFilter {
         }
 
         self.combined_geometry.field = geometry_data.field.clone();
-        
+
         self.geometry_received = true;
-        
+
         true
     }
 
