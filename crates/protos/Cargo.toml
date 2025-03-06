@@ -9,3 +9,4 @@ prost-types = "0.13.4"
 
 [build-dependencies]
 prost-build = "0.13.4"
+anyhow = "1.0.95"

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message RobotProcessedFeedback {
+    bool ball_sensor_sees_ball = 1;     // The ball sensor sees the ball
+    bool ball_sensor_is_working = 3;    // The sensor is working
+    bool dribbler_sees_ball = 4;        // The dribbler sees the ball
+    bool xsens_is_calibrated = 5;       // The xSens is calibrated
+    bool capacitor_is_charged = 6;      // The capacitor is charged
+    float battery_level = 8;            // Battery level of the robot // TODO: Figure out if this is voltage or percentage
+}
+
+message FeedbackOnlyRobot{
+    int32 id = 1;
+    RobotProcessedFeedback feedback = 2;
+}

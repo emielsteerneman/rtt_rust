@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message Vector2f {
+    float x = 1;
+    float y = 2;
+}
