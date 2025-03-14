@@ -37,7 +37,7 @@
 │   │       │       ├── PosVelFilter1D.h ✅ <- Moved to common crate
 │   │       │       ├── PosVelFilter2D.h ✅ <- Moved to common crate
 │   │       │       ├── RobotFeedbackFilter.h
-│   │       │       ├── VisionFilter.h
+│   │       │       ├── VisionFilter.h 🟨
 │   │       │       ├── WorldFilter.h
 │   │       │       ├── ball
 │   │       │       │   ├── BallAssigner.h
@@ -72,7 +72,7 @@
 │   │   │       ├── PosVelFilter1D.cpp ✅
 │   │   │       ├── PosVelFilter2D.cpp ✅
 │   │   │       ├── RobotFeedbackFilter.cpp
-│   │   │       ├── VisionFilter.cpp
+│   │   │       ├── VisionFilter.cpp 🟨
 │   │   │       ├── WorldFilter.cpp
 │   │   │       ├── ball
 │   │   │       │   ├── BallAssigner.cpp
