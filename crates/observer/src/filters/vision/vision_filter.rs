@@ -3,7 +3,7 @@ use std::time::Instant;
 use crate::parameters::robot_parameter_database::TwoTeamRobotParameters;
 
 use super::geometry_filter::GeometryFilter;
-
+use super::world_filter::WorldFilter;
 
 use protos::{roboteam::{RobotFeedback, World}, sslvision::{SslGeometryData, SslWrapperPacket}};
 
