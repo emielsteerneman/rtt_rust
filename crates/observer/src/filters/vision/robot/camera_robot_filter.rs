@@ -35,7 +35,7 @@ impl CameraRobotFilter {
     const ROBOT_ANGLE_MEASUREMENT_ERROR: f32 = 0.02; //[rad] 1.1 degrees roughly //TODO measure in practice/tune
     const ROBOT_ANGLE_MODEL_ERROR: f32 = 4.0; //[rad/s^2] Assumed white noise in angular acceleration of a robot
 
-    pub fn new(observation: RobotObservation, velocity: RobotVelocity) -> Self {
+    pub fn new(observation: &RobotObservation, velocity: &RobotVelocity) -> Self {
         let camera_object_filter =
             CameraObjectFilter::new(0.2, 1. / 60., 10., 3., observation.get_time_captured());
 
@@ -93,6 +93,10 @@ impl CameraRobotFilter {
             ),
             previous_time: observation.get_time_captured(),
         }
+    }
+
+    pub fn from_observation(observation: &RobotObservation) -> Self {
+        Self::new(observation, &RobotVelocity::default())
     }
 
     fn update_previous_info(&mut self) {
