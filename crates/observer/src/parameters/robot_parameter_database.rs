@@ -57,5 +57,4 @@ impl RobotParameterDatabase {
             return RobotParameters::default();
         }
     }
-
 }

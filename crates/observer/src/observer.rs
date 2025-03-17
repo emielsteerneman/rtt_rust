@@ -1,9 +1,9 @@
-use super::parameters::robot_parameter_database::RobotParameterDatabase;
 use super::filters::{referee::referee_filter::RefereeFilter, vision::vision_filter::VisionFilter};
+use super::parameters::robot_parameter_database::RobotParameterDatabase;
 
-use protos::sslvision::SslWrapperPacket;
 use protos::gamecontroller::Referee;
 use protos::roboteam::RobotFeedback;
+use protos::sslvision::SslWrapperPacket;
 
 pub struct Observer {
     robot_parameter_database: RobotParameterDatabase,
@@ -12,7 +12,6 @@ pub struct Observer {
 }
 
 impl Observer {
-    
     pub fn process(
         &self,
         vision_packets: &Vec<SslWrapperPacket>,

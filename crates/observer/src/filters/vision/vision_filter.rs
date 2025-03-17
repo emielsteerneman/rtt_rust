@@ -5,7 +5,10 @@ use crate::parameters::robot_parameter_database::TwoTeamRobotParameters;
 use super::geometry_filter::GeometryFilter;
 use super::world_filter::WorldFilter;
 
-use protos::{roboteam::{RobotFeedback, World}, sslvision::{SslGeometryData, SslWrapperPacket}};
+use protos::{
+    roboteam::{RobotFeedback, World},
+    sslvision::{SslGeometryData, SslWrapperPacket},
+};
 
 /**
  * @author Rolf
@@ -31,34 +34,42 @@ impl VisionFilter {
      * @param camera_ids the camera ids to process, if empty all cameras are processed
      * @return a world state, extrapolated to the given time
      */
-    pub fn process(packets: &Vec<SslWrapperPacket>, feedback: &Vec<RobotFeedback>, camera_ids: &Vec<i64>) -> World {
-        todo!{}
+    pub fn process(
+        packets: &Vec<SslWrapperPacket>,
+        feedback: &Vec<RobotFeedback>,
+        camera_ids: &Vec<i64>,
+    ) -> World {
+        todo! {}
     }
 
     pub fn update_robot_parameters(parameters: &TwoTeamRobotParameters) {
-        todo!{}
+        todo! {}
     }
 
     pub fn get_geometry() -> Option<SslGeometryData> {
-        todo!{}
+        todo! {}
     }
 
     pub fn set_extrapolation_policy(policy: TimeExtrapolationPolicy) {
-        todo!{}
+        todo! {}
     }
 }
 
 impl VisionFilter {
     fn get_extrapolation_time_for_policy() -> Instant {
-        todo!{}
+        todo! {}
     }
 
-    fn process_geometry(packets: &Vec<SslWrapperPacket>){
-        todo!{}
+    fn process_geometry(packets: &Vec<SslWrapperPacket>) {
+        todo! {}
     }
 
-    fn process_detections(packets: &Vec<SslWrapperPacket>, feedback: &Vec<RobotFeedback>, camera_ids: &Vec<i64>) {
-        todo!{}
+    fn process_detections(
+        packets: &Vec<SslWrapperPacket>,
+        feedback: &Vec<RobotFeedback>,
+        camera_ids: &Vec<i64>,
+    ) {
+        todo! {}
     }
 }
 

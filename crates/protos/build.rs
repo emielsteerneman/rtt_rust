@@ -15,16 +15,12 @@ fn main() {
         overwritten by the next call.
     */
 
-
-    build_proto_sslvision()
-    .expect("Failed to compile proto files within proto_sslvision");
+    build_proto_sslvision().expect("Failed to compile proto files within proto_sslvision");
 
     build_proto_gamecontroller()
-    .expect("Failed to compile proto files within proto_gamecontroller");
+        .expect("Failed to compile proto files within proto_gamecontroller");
 
-    build_proto_roboteam()
-    .expect("Failed to compile proto files within proto_roboteam");
-
+    build_proto_roboteam().expect("Failed to compile proto files within proto_roboteam");
 }
 
 fn build_proto_sslvision() -> anyhow::Result<()> {
@@ -66,7 +62,8 @@ fn build_proto_gamecontroller() -> anyhow::Result<()> {
     // This file needs to be renamed to prevent it being overwritten by the next call to prost_build::compile_protos
     std::fs::rename(
         std::path::Path::new(std::env::var("OUT_DIR").unwrap().as_str()).join("_.rs"),
-        std::path::Path::new(std::env::var("OUT_DIR").unwrap().as_str()).join("proto_gamecontroller.rs"),
+        std::path::Path::new(std::env::var("OUT_DIR").unwrap().as_str())
+            .join("proto_gamecontroller.rs"),
     )?;
     Ok(())
 }

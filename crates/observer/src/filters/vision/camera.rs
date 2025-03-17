@@ -10,10 +10,9 @@
 //! * 5
 //! * 6
 use derive_more::Constructor;
-use nalgebra::{Vector2, Vector3, Quaternion};
+use nalgebra::{Quaternion, Vector2, Vector3};
 
 use protos::sslvision::SslGeometryCameraCalibration;
-
 
 #[derive(Constructor, Default)]
 struct Camera {
@@ -48,27 +47,31 @@ impl Camera {
     }
 
     /// All vectors are in meters
-    /// 
+    ///
     /// # Parameters
     /// - `object_position` 3d position of object to be project to plane
     /// - `plane_height` height of the plane
-    /// 
+    ///
     /// # Returns
     /// The 2d vector in meters on the plane
-    pub fn linear_project_to_horizontal_plane(&self, object_position: &Vector3<f32>, plane_height: f32) -> Vector2<f32> {
+    pub fn linear_project_to_horizontal_plane(
+        &self,
+        object_position: &Vector3<f32>,
+        plane_height: f32,
+    ) -> Vector2<f32> {
         todo!()
     }
 
     /// Checks if the position is visible
-    /// 
-    /// The margin_factor is subtracted from the image boundaries in pixels on each side. It is then checked if the 
+    ///
+    /// The margin_factor is subtracted from the image boundaries in pixels on each side. It is then checked if the
     /// coordinate produced falls within the acceptable range. E.g. if marginFactor is 0.1 and the image is 1280x1024,
     /// 128 pixels are substracted from each side and only the inner region is considered visible.
-    /// 
+    ///
     /// # Parameters
-    /// - `field_point_mm` 3d position of the object to be checked **in millimeters** 
-    /// - `margin_factor` the factor to be subtracted from the image boundaries 
-    /// 
+    /// - `field_point_mm` 3d position of the object to be checked **in millimeters**
+    /// - `margin_factor` the factor to be subtracted from the image boundaries
+    ///
     /// # Returns
     /// True if the position is visible, false otherwise. This function also returns true if either the width or height
     /// of the image is unknown.
@@ -77,15 +80,13 @@ impl Camera {
     }
 
     /// Projects a 3d point in the field to a 2d point in the image. See [note](index.html#note-on-implementation)
-    /// 
+    ///
     /// # Parameters
     /// - `field_point_mm` 3d position of the object to be projected **in millimeters**
-    /// 
+    ///
     /// # Returns
     /// the pixel coordinates of the 3d point that was projected
     pub fn field_to_image(&self, field_point_mm: &Vector3<f32>) -> Vector2<f32> {
         todo!()
     }
-
-
 }

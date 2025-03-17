@@ -1,4 +1,4 @@
-/*! 
+/*!
 The observer is responsible for receiving data from multiple sources and turning it into a single source of truth.
 
 The sources consumed by the observer are:
