@@ -1,11 +1,11 @@
 use std::time::Instant;
 
 use derive_more::Constructor;
-use nalgebra::{max, Matrix2, SVector, Vector2};
+use nalgebra::Vector2;
 
 use super::ball_observation::BallObservation;
 
-#[derive(Constructor, Default)]
+#[derive(Constructor)]
 struct CameraGroundBallPrediction {
     position: Vector2<f32>,
     velocity: Vector2<f32>,
