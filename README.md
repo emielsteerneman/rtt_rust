@@ -44,7 +44,7 @@
 │   │       │       │   ├── BallFilter.h
 │   │       │       │   ├── BallObservation.h 🟨
 │   │       │       │   ├── CameraGroundBallFilter.h 🟨
-│   │       │       │   ├── FilteredBall.h
+│   │       │       │   ├── FilteredBall.h ✅
 │   │       │       │   └── GroundBallExtendedKalmanFilter.h
 │   │       │       └── robot
 │   │       │           ├── CameraRobotFilter.h
@@ -79,7 +79,7 @@
 │   │   │       │   ├── BallFilter.cpp
 │   │   │       │   ├── BallObservation.cpp 🟨
 │   │   │       │   ├── CameraGroundBallFilter.cpp 🟨
-│   │   │       │   ├── FilteredBall.cpp
+│   │   │       │   ├── FilteredBall.cpp ✅
 │   │   │       │   └── GroundBallExtendedKalmanFilter.cpp
 │   │   │       └── robot
 │   │   │           ├── CameraRobotFilter.cpp
