@@ -3,7 +3,7 @@ use std::time::Instant;
 use derive_more::Constructor;
 use nalgebra::Vector2;
 
-use super::ball_observation::BallObservation;
+use super::{ball_observation::BallObservation, filtered_ball::FilteredBall};
 
 #[derive(Constructor)]
 struct CameraGroundBallPrediction {
