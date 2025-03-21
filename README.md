@@ -48,7 +48,7 @@
 │   │       │       │   └── GroundBallExtendedKalmanFilter.h
 │   │       │       └── robot
 │   │       │           ├── CameraRobotFilter.h
-│   │       │           ├── FilteredRobot.h
+│   │       │           ├── FilteredRobot.h ✅
 │   │       │           ├── RobotFilter.h
 │   │       │           ├── RobotObservation.h
 │   │       │           ├── RobotOrientationFilter.h ✅
@@ -83,7 +83,7 @@
 │   │   │       │   └── GroundBallExtendedKalmanFilter.cpp
 │   │   │       └── robot
 │   │   │           ├── CameraRobotFilter.cpp
-│   │   │           ├── FilteredRobot.cpp
+│   │   │           ├── FilteredRobot.cpp ✅
 │   │   │           ├── RobotFilter.cpp 🟨
 │   │   │           ├── RobotObservation.cpp
 │   │   │           ├── RobotOrientationFilter.cpp ✅

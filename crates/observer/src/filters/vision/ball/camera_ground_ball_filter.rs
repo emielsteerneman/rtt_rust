@@ -3,6 +3,8 @@ use std::time::Instant;
 use derive_more::Constructor;
 use nalgebra::Vector2;
 
+use crate::filters::vision::robot::filtered_robot::FilteredRobot;
+
 use super::{ball_observation::BallObservation, filtered_ball::FilteredBall};
 
 #[derive(Constructor)]

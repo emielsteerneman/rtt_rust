@@ -6,14 +6,14 @@ use std::time::Instant;
 
 #[derive(Default, Constructor)]
 pub struct RobotPosition {
-    position: Vector2<f32>,
-    orientation: f32,
+    pub position: Vector2<f32>,
+    pub orientation: f32,
 }
 
 #[derive(Default, Constructor, Add, Div)]
 pub struct RobotVelocity {
-    velocity: Vector2<f32>,
-    angular_velocity: f32,
+    pub velocity: Vector2<f32>,
+    pub angular_velocity: f32,
 }
 
 impl RobotVelocity {
@@ -28,7 +28,7 @@ impl RobotVelocity {
 
 #[derive(Default, Constructor, PartialOrd, PartialEq, Clone, Copy)]
 pub struct RobotId {
-    id: u8,
+    pub id: u8,
 }
 
 impl RobotId {
