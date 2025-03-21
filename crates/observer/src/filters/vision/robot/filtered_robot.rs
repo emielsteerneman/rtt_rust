@@ -9,11 +9,11 @@ pub struct FilteredRobot {
     team: TeamColor,
     position: RobotPosition,
     velocity: RobotVelocity,
-    health: f64,
-    position_uncertainty: f64,
-    velocity_uncertainty: f64,
-    yaw_uncertainty: f64,
-    angular_velocity_uncertainty: f64,
+    health: f32,
+    position_uncertainty: f32,
+    velocity_uncertainty: f32,
+    yaw_uncertainty: f32,
+    angular_velocity_uncertainty: f32,
 }
 
 impl FilteredRobot {
