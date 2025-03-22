@@ -3,8 +3,7 @@
 use std::time::Instant;
 
 use super::{
-    robot_orientation_filter::RobotOrientationFilter,
-    robot_observation::{RobotId, RobotObservation, RobotPosition, RobotVelocity, TeamColor},
+    filtered_robot::FilteredRobot, robot_observation::{RobotId, RobotObservation, RobotPosition, RobotVelocity, TeamColor}, robot_orientation_filter::RobotOrientationFilter
 };
 use crate::filters::camera_object_filter::CameraObjectFilter;
 use common::pos_vel_filter_2d::PosVelFilter2D;
@@ -99,19 +98,20 @@ impl CameraRobotFilter {
         Self::new(observation, &RobotVelocity::default())
     }
 
-    fn update_previous_info(&mut self) {
-        self.previous_position = RobotPosition::new(
-            self.position_filter.get_position(),
-            self.orientation_filter.get_orientation(),
-        );
-        self.previous_time = self.filter.get_time_last_update();
+    pub fn predict(self, time: Instant) {
+        todo!()
     }
 
-    fn velocity_estimate(&self) -> RobotVelocity {
-        RobotVelocity::new(
-            self.position_filter.get_velocity(),
-            self.orientation_filter.get_orientation(),
-        )
+    pub fn update(self, observation: &RobotObservation){
+        todo!()
+    }
+
+    fn update_robot_not_seen(self, time: Instant) -> bool {
+        todo!()
+    }
+
+    fn estimate(self, time: Instant) -> FilteredRobot {
+        todo!()
     }
 
     fn accept_observation(&self, robot_observation: &RobotObservation) -> bool {
@@ -125,9 +125,22 @@ impl CameraRobotFilter {
             && orientation_difference < std::f32::consts::FRAC_PI_2
     }
 
-    // fn estimate(&self, time:Instant) -> FilteredRobot {
+    fn velocity_estimate(&self) -> RobotVelocity {
+        RobotVelocity::new(
+            self.position_filter.get_velocity(),
+            self.orientation_filter.get_orientation(),
+        )
+    }
 
-    // }
+    fn update_previous_info(&mut self) {
+        self.previous_position = RobotPosition::new(
+            self.position_filter.get_position(),
+            self.orientation_filter.get_orientation(),
+        );
+        self.previous_time = self.filter.get_time_last_update();
+    }
 
-    fn predict(time: Instant) {}
+    fn get_just_updated(self) -> bool {
+        self.just_updated
+    }
 }
