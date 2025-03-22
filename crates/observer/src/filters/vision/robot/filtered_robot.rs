@@ -1,7 +1,7 @@
 use derive_more::Constructor;
 use protos::roboteam::WorldRobot;
 
-use super::robot_properties::{RobotId, RobotPosition, RobotVelocity, TeamColor};
+use super::robot_observation::{RobotId, RobotPosition, RobotVelocity, TeamColor};
 
 #[derive(Constructor)]
 pub struct FilteredRobot {

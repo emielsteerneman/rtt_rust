@@ -2,7 +2,7 @@ use std::{collections::HashMap, time::Instant};
 
 use super::{
     camera_robot_filter::CameraRobotFilter,
-    robot_properties::{RobotId, RobotObservation, TeamColor},
+    robot_observation::{RobotId, RobotObservation, TeamColor},
 };
 
 pub struct RobotFilter {

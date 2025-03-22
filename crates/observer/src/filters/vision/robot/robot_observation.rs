@@ -5,7 +5,7 @@ use nalgebra::Vector2;
 use std::time::Instant;
 
 #[derive(Default, Constructor)]
-pub struct RobotPosition {
+pub struct RobotPosition {  
     pub position: Vector2<f32>,
     pub orientation: f32,
 }
@@ -49,7 +49,7 @@ pub struct RobotObservation {
     time_sent: Instant,
     id: RobotId,
     team: TeamColor,
-    position: Vector2<f32>,
+    position: Vector2<f32>, // Why does this not use the RobotPosition struct?
     pixel_position: Vector2<f32>,
     orientation: f32,
     confidence: f32,

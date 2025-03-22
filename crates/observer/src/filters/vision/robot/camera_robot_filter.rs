@@ -4,7 +4,7 @@ use std::time::Instant;
 
 use super::{
     robot_orientation_filter::RobotOrientationFilter,
-    robot_properties::{RobotId, RobotObservation, RobotPosition, RobotVelocity, TeamColor},
+    robot_observation::{RobotId, RobotObservation, RobotPosition, RobotVelocity, TeamColor},
 };
 use crate::filters::camera_object_filter::CameraObjectFilter;
 use common::pos_vel_filter_2d::PosVelFilter2D;
