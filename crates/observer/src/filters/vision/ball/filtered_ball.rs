@@ -2,13 +2,13 @@ use derive_more::Constructor;
 use nalgebra::Vector2;
 use protos::roboteam::WorldBall;
 
-#[derive(Constructor)]
+#[derive(Constructor, Default)]
 pub struct FilteredBall {
-    position: Vector2<f32>,
-    velocity: Vector2<f32>,
-    health: f32,
-    position_uncertainty: f32,
-    velocity_uncertainty: f32,
+    pub position: Vector2<f32>,
+    pub velocity: Vector2<f32>,
+    pub health: f32,
+    pub position_uncertainty: f32,
+    pub velocity_uncertainty: f32,
 }
 
 impl FilteredBall {

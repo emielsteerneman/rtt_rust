@@ -5,14 +5,14 @@ use protos::sslvision::SslDetectionBall;
 
 #[derive(Constructor)]
 pub struct BallObservation {
-    camera_id: usize,
-    time_captured: Instant,
-    time_sent: Instant,
-    position: Vector2<f32>,
-    pixel_position: Vector2<f32>,
-    area: u32,
-    confidence: f32,
-    height: f32,
+    pub camera_id: usize,
+    pub time_captured: Instant,
+    pub time_sent: Instant,
+    pub position: Vector2<f32>,
+    pub pixel_position: Vector2<f32>,
+    pub area: u32,
+    pub confidence: f32,
+    pub height: f32,
 }
 
 impl BallObservation {

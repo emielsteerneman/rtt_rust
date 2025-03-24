@@ -1,11 +1,11 @@
 use std::time::Instant;
 
 pub struct CameraObjectFilter {
-    frames_total: u32,
-    frames_not_seen_for: u32,
-    time_last_seen: Instant,
-    time_last_update: Instant,
-    health: f32,
+    pub frames_total: usize,
+    pub frames_not_seen_for: usize,
+    pub time_last_seen: Instant,
+    pub time_last_update: Instant,
+    pub health: f32,
 
     INCREMENT: f32,
     DECREMENT_SLOPE: f32,
@@ -64,24 +64,5 @@ impl CameraObjectFilter {
             0.,
             self.health - (time - self.time_last_update).as_secs_f32() * self.DECREMENT_SLOPE,
         );
-    }
-}
-
-/* Getters and Setters */
-impl CameraObjectFilter {
-    pub fn get_frames_total(&self) -> u32 {
-        self.frames_total
-    }
-    pub fn get_frames_not_seen_for(&self) -> u32 {
-        self.frames_not_seen_for
-    }
-    pub fn get_time_last_seen(&self) -> Instant {
-        self.time_last_seen
-    }
-    pub fn get_time_last_update(&self) -> Instant {
-        self.time_last_update
-    }
-    pub fn get_health(&self) -> f32 {
-        self.health
     }
 }
