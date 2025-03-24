@@ -8,19 +8,19 @@ use crate::filters::vision::robot::filtered_robot::FilteredRobot;
 use super::{ball_observation::BallObservation, filtered_ball::FilteredBall};
 
 #[derive(Constructor)]
-struct CameraGroundBallPrediction {
+pub struct CameraGroundBallPrediction {
     position: Vector2<f32>,
     velocity: Vector2<f32>,
     time: Instant,
 }
 
-struct CameraGroundBallPredictionObservationPair {
+pub struct CameraGroundBallPredictionObservationPair {
     prediction: CameraGroundBallPrediction,
     observation: Option<BallObservation>,
 }
 
 pub struct CameraGroundBallFilter {
-    ekf: GroundBallExtendedKalmanFilter,
+    // ekf: GroundBallExtendedKalmanFilter,
 }
 
 /// Public methods for the CameraGroundBallFilter
