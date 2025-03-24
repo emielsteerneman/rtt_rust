@@ -126,14 +126,18 @@ fn main() {
         .collect();
 
     let struct_types_ignore: HashSet<String> = [
+        "bool",
+        "HashMap",
         "f32",
         "u32",
         "u8",
-        "bool",
+        "usize",
         "Instant",
         "RefCell",
         "Option",
+        "std",
         "String",
+        "time",
         "Vec",
         "SMatrix",
         "SVector",
