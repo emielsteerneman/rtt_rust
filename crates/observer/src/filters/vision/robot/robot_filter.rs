@@ -14,8 +14,8 @@ pub struct RobotFilter {
 impl RobotFilter {
     pub fn new(observation: &RobotObservation) -> Self {
         Self {
-            id: observation.get_robot_id(),
-            team: observation.get_team_color(),
+            id: observation.id,
+            team: observation.team,
             camera_filters: HashMap::from([(0, CameraRobotFilter::from_observation(observation))]),
         }
     }

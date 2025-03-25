@@ -36,7 +36,7 @@ impl CameraRobotFilter {
 
     pub fn new(observation: &RobotObservation, velocity: &RobotVelocity) -> Self {
         let camera_object_filter =
-            CameraObjectFilter::new(0.2, 1. / 60., 10., 3., observation.get_time_captured());
+            CameraObjectFilter::new(0.2, 1. / 60., 10., 3., observation.time_captured);
 
         let mut initial_position_covariance: Matrix4<f32> = Matrix4::zeros();
         initial_position_covariance[(0, 0)] = Self::ROBOT_POSITION_INITIAL_COVARIANCE;
@@ -45,8 +45,8 @@ impl CameraRobotFilter {
         initial_position_covariance[(3, 3)] = Self::ROBOT_VELOCITY_INITIAL_COVARIANCE;
 
         let initial_position: Vector4<f32> = Vector4::new(
-            observation.get_position()[0],
-            observation.get_position()[1],
+            observation.position[0],
+            observation.position[1],
             velocity.get_velocity()[0],
             velocity.get_velocity()[1],
         );
@@ -56,7 +56,7 @@ impl CameraRobotFilter {
             initial_position_covariance,
             Self::ROBOT_POSITION_MODEL_ERROR,
             Self::ROBOT_POSITION_MEASUREMENT_ERROR,
-            observation.get_time_captured(),
+            observation.time_captured,
         );
 
         let mut initial_orientation_covariance: Matrix2<f32> = Matrix2::zeros();
@@ -64,7 +64,7 @@ impl CameraRobotFilter {
         initial_orientation_covariance[(1, 1)] = Self::ROBOT_ANGULAR_VELOCITY_INITIAL_COVARIANCE;
 
         let initial_orientation: Vector2<f32> = Vector2::new(
-            observation.get_orientation(),
+            observation.orientation,
             velocity.get_angular_velocity(),
         );
 
@@ -73,7 +73,7 @@ impl CameraRobotFilter {
             initial_orientation_covariance,
             Self::ROBOT_ANGLE_MODEL_ERROR,
             Self::ROBOT_ANGLE_MEASUREMENT_ERROR,
-            observation.get_time_captured(),
+            observation.time_captured,
         );
 
         Self {
@@ -82,15 +82,15 @@ impl CameraRobotFilter {
             orientation_filter,
             just_updated: true,
 
-            robot_id: observation.get_robot_id(),
-            team_color: observation.get_team_color(),
-            camera_id: observation.get_camera_id(),
+            robot_id: observation.id,
+            team_color: observation.team,
+            camera_id: observation.camera_id,
 
             previous_position: RobotPosition::new(
-                observation.get_position(),
-                observation.get_orientation(),
+                observation.position,
+                observation.orientation,
             ),
-            previous_time: observation.get_time_captured(),
+            previous_time: observation.time_captured,
         }
     }
 
@@ -116,10 +116,10 @@ impl CameraRobotFilter {
 
     fn accept_observation(&self, robot_observation: &RobotObservation) -> bool {
         let orientation_difference: f32 = f32::abs(
-            self.orientation_filter.get_orientation() - robot_observation.get_orientation(),
+            self.orientation_filter.get_orientation() - robot_observation.orientation,
         );
         let position_difference_squared: f32 =
-            (robot_observation.get_position() - self.position_filter.get_position()).norm_squared();
+            (robot_observation.position - self.position_filter.get_position()).norm_squared();
 
         position_difference_squared < 0.4 * 0.4
             && orientation_difference < std::f32::consts::FRAC_PI_2
@@ -137,7 +137,7 @@ impl CameraRobotFilter {
             self.position_filter.get_position(),
             self.orientation_filter.get_orientation(),
         );
-        self.previous_time = self.filter.get_time_last_update();
+        self.previous_time = self.filter.time_last_update;
     }
 
     fn get_just_updated(self) -> bool {

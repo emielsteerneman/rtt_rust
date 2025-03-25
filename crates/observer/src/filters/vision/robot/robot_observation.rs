@@ -44,16 +44,16 @@ pub enum TeamColor {
 }
 
 pub struct RobotObservation {
-    camera_id: u32,
-    time_captured: Instant,
-    time_sent: Instant,
-    id: RobotId,
-    team: TeamColor,
-    position: Vector2<f32>, // Why does this not use the RobotPosition struct?
-    pixel_position: Vector2<f32>,
-    orientation: f32,
-    confidence: f32,
-    height: f32,
+    pub camera_id: u32,
+    pub time_captured: Instant,
+    pub time_sent: Instant,
+    pub id: RobotId,
+    pub team: TeamColor,
+    pub position: Vector2<f32>, // Why does this not use the RobotPosition struct?
+    pub pixel_position: Vector2<f32>,
+    pub orientation: f32,
+    pub confidence: f32,
+    pub height: f32,
 }
 
 impl RobotObservation {
@@ -76,29 +76,5 @@ impl RobotObservation {
             confidence: detection.confidence,
             height: detection.height.unwrap(),
         }
-    }
-
-    pub fn get_time_captured(&self) -> Instant {
-        self.time_captured
-    }
-
-    pub fn get_position(&self) -> Vector2<f32> {
-        self.position
-    }
-
-    pub fn get_orientation(&self) -> f32 {
-        self.orientation
-    }
-
-    pub fn get_robot_id(&self) -> RobotId {
-        self.id
-    }
-
-    pub fn get_team_color(&self) -> TeamColor {
-        self.team
-    }
-
-    pub fn get_camera_id(&self) -> u32 {
-        self.camera_id
     }
 }
