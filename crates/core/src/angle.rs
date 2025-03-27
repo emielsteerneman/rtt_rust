@@ -1,0 +1,289 @@
+use std::f32::consts::PI;
+use super::vector2::Vector2;
+
+#[derive(Debug, Clone, Copy)]
+pub struct Angle(pub f32);
+
+/*
+impl Angle {
+    pub const TWO_PI: Angle = Angle(2.0 * PI);
+    pub const PI: Angle = Angle(PI);
+    pub const PI_2: Angle = Angle(PI / 2.0);
+    pub const PI_4: Angle = Angle(PI / 4.0);
+
+    /// Create a new angle from radians.
+    pub fn from_radians(radians: f32) -> Self {
+        Angle(wrap_angle(radians))
+    }
+
+    /// Create a new angle from degrees.
+    pub fn from_degrees(degrees: f32) -> Self {
+        Self::from_radians(degrees.to_radians())
+    }
+
+    /// Compute the smallest signed counter-clockwise angle from point a to point b.
+    pub fn between_points(a: Vector2, b: Vector2) -> Self {
+        let angle = (b.y - a.y).atan2(b.x - a.x);
+        Self::from_radians(angle)
+    }
+
+    pub fn from_vector(v: Vector2) -> Self {
+        Self::between_points(Vector2::x(), v)
+    }
+
+    /// Get the angle in radians.
+    pub fn radians(&self) -> f32 {
+        self.0
+    }
+
+    /// Get the angle in degrees.
+    pub fn degrees(&self) -> f32 {
+        self.0.to_degrees()
+    }
+
+    /// Rotate a vector by this angle.
+    pub fn rotate_vector(&self, v: &Vector2) -> Vector2 {
+        let rot = nalgebra::Rotation2::new(self.0);
+        rot * v
+    }
+
+    /// Get the inversion of the angle (* -1)
+    pub fn inv(&self) -> Self {
+        -*self
+    }
+
+    /// Get a random angle in (-pi, pi]
+    pub fn random() -> Self {
+        let radians = (rand::random::<f32>() * 2.0 * PI) - PI;
+        Self::from_radians(radians)
+    }
+
+    /// Get the absolute value of the angle
+    pub fn abs(&self) -> f32 {
+        self.0.abs()
+    }
+
+    /// Get the sign of the angle
+    pub fn signum(&self) -> f32 {
+        self.0.signum()
+    }
+
+    /// Get the unit vector representation of the angle
+    pub fn to_vector(&self) -> Vector2 {
+        Vector2::new(self.0.cos(), self.0.sin())
+    }
+}
+
+impl std::ops::Add for Angle {
+    type Output = Self;
+
+    fn add(self, other: Self) -> Self {
+        Angle::from_radians(self.0 + other.0)
+    }
+}
+
+impl std::ops::Sub for Angle {
+    type Output = Self;
+
+    fn sub(self, other: Self) -> Self {
+        Angle::from_radians(self.0 - other.0)
+    }
+}
+
+impl std::ops::Neg for Angle {
+    type Output = Self;
+
+    fn neg(self) -> Self {
+        Angle::from_radians(-self.0)
+    }
+}
+
+impl std::ops::AddAssign for Angle {
+    fn add_assign(&mut self, other: Self) {
+        self.0 = wrap_angle(self.0 + other.0);
+    }
+}
+
+impl std::ops::SubAssign for Angle {
+    fn sub_assign(&mut self, other: Self) {
+        self.0 = wrap_angle(self.0 - other.0);
+    }
+}
+
+impl std::ops::Mul<Vector2> for Angle {
+    type Output = Vector2;
+
+    fn mul(self, v: Vector2) -> Vector2 {
+        self.rotate_vector(&v)
+    }
+}
+
+impl std::ops::Mul<f32> for Angle {
+    type Output = Self;
+
+    fn mul(self, scalar: f32) -> Self {
+        Angle::from_radians(self.0 * scalar)
+    }
+}
+
+impl std::ops::Div<f32> for Angle {
+    type Output = Self;
+
+    fn div(self, scalar: f32) -> Self {
+        Angle::from_radians(self.0 / scalar)
+    }
+}
+
+impl std::fmt::Display for Angle {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{} rad", self.0)
+    }
+}
+
+impl Default for Angle {
+    fn default() -> Self {
+        Self::from_radians(0.0)
+    }
+}
+
+impl PartialEq for Angle {
+    fn eq(&self, other: &Self) -> bool {
+        let diff: f32 = (self.radians() - other.radians()).abs();
+        const TOLERANCE: f32 = 1e-5; // about sqrt of f32 precision
+        !(TOLERANCE..=(2.0 * PI - TOLERANCE)).contains(&diff)
+    }
+}
+
+fn wrap_angle(angle: f32) -> f32 {
+    let mut angle = angle % (2.0 * PI);
+    if angle <= -PI {
+        angle += 2.0 * PI;
+    } else if angle > PI {
+        angle -= 2.0 * PI;
+    }
+    angle
+}
+
+#[cfg(test)]
+mod tests {
+    use std::f32::consts::PI;
+
+    use approx::assert_relative_eq;
+
+    use super::*;
+
+    #[test]
+    fn test_wrap_angle() {
+        assert_eq!(wrap_angle(0.0), 0.0);
+        assert_eq!(wrap_angle(PI), PI);
+        assert_eq!(wrap_angle(-PI), PI);
+        assert_eq!(wrap_angle(3.0 * PI), PI);
+        assert_eq!(wrap_angle(-3.0 * PI), PI);
+    }
+
+    #[test]
+    fn between_points() {
+        let a = Vector2::new(0.0, 0.0);
+        let b = Vector2::new(1.0, 1.0);
+        let angle = Angle::between_points(a, b);
+        assert_eq!(angle.degrees(), 45.0);
+    }
+
+    #[test]
+    fn test_angle_add() {
+        let a = Angle::from_degrees(90.0);
+        let b = Angle::from_degrees(45.0);
+        let c = a + b;
+        assert_eq!(c.degrees(), 135.0);
+    }
+
+    #[test]
+    fn test_angle_sub() {
+        let a = Angle::from_degrees(90.0);
+        let b = Angle::from_degrees(45.0);
+        let c = a - b;
+        assert_eq!(c.degrees(), 45.0);
+
+        let a = Angle::from_degrees(-180.0);
+        let b = Angle::from_degrees(180.0);
+        assert_eq!((a - b).degrees(), 0.0);
+
+        let a = Angle::from_degrees(180.0);
+        let b = Angle::from_degrees(-179.0);
+        assert_relative_eq!((a - b).degrees(), -1.0, epsilon = 1e-5);
+    }
+
+    #[test]
+    fn test_angle_neg() {
+        let a = Angle::from_degrees(90.0);
+        let b = -a;
+        assert_eq!(b.degrees(), -90.0);
+    }
+
+    #[test]
+    fn test_angle_add_assign() {
+        let mut a = Angle::from_degrees(90.0);
+        let b = Angle::from_degrees(45.0);
+        a += b;
+        assert_eq!(a.degrees(), 135.0);
+    }
+
+    #[test]
+    fn test_angle_sub_assign() {
+        let mut a = Angle::from_degrees(90.0);
+        let b = Angle::from_degrees(45.0);
+        a -= b;
+        assert_eq!(a.degrees(), 45.0);
+    }
+
+    #[test]
+    fn test_angle_mul() {
+        let a = Angle::from_degrees(90.0);
+        let v = Vector2::new(1.0, 0.0);
+        let r = a * v;
+        assert_eq!(r.y, 1.0);
+    }
+
+    #[test]
+    fn test_flip_around_y_axis() {
+        fn flip(angle: Angle) -> Angle {
+            Angle::PI + angle
+        }
+
+        let a = Angle::from_degrees(90.0);
+        assert_relative_eq!(flip(a).degrees(), -90.0, epsilon = 1e-5);
+
+        let b = Angle::from_degrees(-90.0);
+        assert_relative_eq!(flip(b).degrees(), 90.0, epsilon = 1e-5);
+
+        let c = Angle::from_degrees(0.0);
+        assert_relative_eq!(flip(c).degrees(), 180.0, epsilon = 1e-5);
+
+        let c = Angle::from_degrees(180.0);
+        assert_relative_eq!(flip(c).degrees(), 0.0, epsilon = 1e-5);
+        let c = Angle::from_degrees(-180.0);
+        assert_relative_eq!(flip(c).degrees(), 0.0, epsilon = 1e-5);
+
+        let c = Angle::from_degrees(45.0);
+        assert_relative_eq!(flip(c).degrees(), -135.0, epsilon = 1e-5);
+    }
+
+    #[test]
+    fn test_angle_between_points() {
+        let a = Vector2::new(0.0, 0.0);
+        let b = Vector2::new(1.0, 1.0);
+        let angle1 = Angle::between_points(a, b);
+        assert_eq!(angle1.degrees(), 45.0);
+
+        let angle2 = Angle::between_points(b, a);
+        assert_eq!(angle2.degrees(), -135.0);
+    }
+
+    #[test]
+    fn test_from_vector() {
+        let v = Vector2::new(-1.0, -1.0);
+        let angle = Angle::from_vector(v);
+        assert_relative_eq!(angle.degrees(), -135.0, epsilon = 1e-5);
+    }
+}
+ */

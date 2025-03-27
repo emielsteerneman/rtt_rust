@@ -6,7 +6,7 @@ use super::{
     filtered_robot::FilteredRobot, robot_observation::{RobotId, RobotObservation, RobotPosition, RobotVelocity, TeamColor}, robot_orientation_filter::RobotOrientationFilter
 };
 use crate::filters::camera_object_filter::CameraObjectFilter;
-use common::pos_vel_filter_2d::PosVelFilter2D;
+use core::pos_vel_filter_2d::PosVelFilter2D;
 use nalgebra::{Matrix2, Matrix4, Vector2, Vector4};
 
 pub struct CameraRobotFilter {

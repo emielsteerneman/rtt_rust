@@ -1,4 +1,4 @@
-use common::pos_vel_filter_1d::PosVelFilter1D;
+use core::pos_vel_filter_1d::PosVelFilter1D;
 use nalgebra::{Matrix2, Vector2};
 use std::{f32::consts::PI, time::Instant};
 

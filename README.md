@@ -33,9 +33,9 @@
 │   │       │       ├── CameraObjectFilter.h ✅
 │   │       │       ├── DetectionFrame.h
 │   │       │       ├── GeometryFilter.h ✅
-│   │       │       ├── KalmanFilter.h ✅ <- Moved to common crate
-│   │       │       ├── PosVelFilter1D.h ✅ <- Moved to common crate
-│   │       │       ├── PosVelFilter2D.h ✅ <- Moved to common crate
+│   │       │       ├── KalmanFilter.h ✅ <- Moved to core crate
+│   │       │       ├── PosVelFilter1D.h ✅ <- Moved to core crate
+│   │       │       ├── PosVelFilter2D.h ✅ <- Moved to core crate
 │   │       │       ├── RobotFeedbackFilter.h
 │   │       │       ├── VisionFilter.h 🟨
 │   │       │       ├── WorldFilter.h
