@@ -59,11 +59,11 @@ impl Vector2 {
     }
 
     pub fn to_angle(&self) -> Angle {
-        Angle(f32::atan2(self.0.y, self.0.x))
-    }
-
-    pub fn angle(&self) -> f32 {
-        f32::atan2(self.0.y, self.0.x)
+        if self.length2() == 0. {
+            Angle(f32::NAN)
+        }else{
+            Angle::from_radians(f32::atan2(self.0.y, self.0.x))
+        }
     }
 
     pub fn lerp(&self, other: &Vector2, factor: f32) -> Vector2 {
@@ -134,6 +134,14 @@ impl PartialOrd for Vector2 {
     }
 }
 
+impl std::ops::Neg for Vector2 {
+    type Output = Vector2;
+
+    fn neg(self) -> Self::Output {
+        Vector2::from_xy(-self.0.x, -self.0.y)
+    }
+}
+
 /* Approximation methods */
 impl AbsDiffEq for Vector2 {
     type Epsilon = f32;
@@ -159,19 +167,12 @@ impl RelativeEq for Vector2 {
 
 /* Indexing methods */
 impl Vector2 {
-    fn x(&self) -> f32 {
+    pub fn x(&self) -> f32 {
         self.0.x
     }
 
-    fn y(&self) -> f32 {
+    pub fn y(&self) -> f32 {
         self.0.y
-    }
-}
-
-/* Conversion methods */
-impl Into<f32> for Angle {
-    fn into(self) -> f32 {
-        self.0
     }
 }
 
@@ -255,19 +256,16 @@ mod tests {
     #[test]
     fn test_to_angle() {
         let a = super::Vector2::from_xy(1., 1.);
-        assert_eq!(a.to_angle().0, std::f32::consts::FRAC_PI_4);
+        assert_eq!(a.to_angle().radians(), std::f32::consts::FRAC_PI_4);
 
-        let b = super::Vector2::from_xy(0., 0.);
-        assert_eq!(b.to_angle().0, 0.);
-    }
+        let b = super::Vector2::from_xy(1., 0.);
+        assert_eq!(b.to_angle().radians(), 0.);
 
-    #[test]
-    fn test_angle() {
-        let a = super::Vector2::from_xy(1., 1.);
-        assert_eq!(a.angle(), std::f32::consts::FRAC_PI_4);
+        let c = super::Vector2::from_xy(0., 1.);
+        assert_eq!(c.to_angle().radians(), std::f32::consts::FRAC_PI_2);
 
-        let b = super::Vector2::from_xy(0., 0.);
-        assert_eq!(b.angle(), 0.);
+        let d = super::Vector2::from_xy(0., 0.);
+        assert!(d.to_angle().radians().is_nan());
     }
 
     #[test]
@@ -371,6 +369,19 @@ mod tests {
         let a = super::Vector2::from_xy(1., 2.);
         let b = super::Vector2::from_xy(3., 4.);
         assert_eq!(a - b, super::Vector2::from_xy(-2., -2.));
+    }
+
+    #[test]
+    fn test_partial_ord() {
+        assert!(super::Vector2::from_xy(1., 2.) == super::Vector2::from_xy(1., 2.));
+        assert!(super::Vector2::from_xy(1., 2.) != super::Vector2::from_xy(3., 4.));
+
+        assert!(super::Vector2::from_xy(1., 2.) < super::Vector2::from_xy(-3., -4.));
+        assert!(super::Vector2::from_xy(1., 2.) < super::Vector2::from_xy(3., 4.));
+        assert!(super::Vector2::from_xy(3., 4.) > super::Vector2::from_xy(1., 2.));
+        
+        assert!(super::Vector2::from_xy(1., 1.) <= super::Vector2::from_xy(1., 1.));
+        assert!(super::Vector2::from_xy(1., 1.) >= super::Vector2::from_xy(1., 1.));
     }
 
     #[test]
