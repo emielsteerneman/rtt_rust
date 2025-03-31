@@ -177,15 +177,20 @@ fn main() {
                     }
                 }
             } else */
+            
+            // Enum found
             if let Item::Enum(enum_item) = item {
                 println!("Found enum {}", enum_item.ident.to_string());
                 dependencies.insert(enum_item.ident.to_string(), vec![]);
-            } else if let Item::Struct(struct_item) = item {
+            } else
+
+            // Struct found
+            if let Item::Struct(struct_item) = item {
                 let struct_name = struct_item.ident.to_string();
                 println!("Found struct {}", struct_name);
 
                 let mut struct_types: HashSet<String> = HashSet::<String>::new();
-
+                // For each field in the struct, find its type
                 for field in struct_item.fields {
                     match &field.ty {
                         Type::Path(type_path) => {
@@ -196,6 +201,7 @@ fn main() {
                         _ => todo!(),
                     }
                 }
+                // Remove blacklisted types
                 let struct_types: Vec<String> = struct_types
                     .difference(&struct_types_ignore)
                     .cloned()
