@@ -1,0 +1,58 @@
+# Tier 2 — standard
+# Minimal + game-controller + simulation-controller. Enough to run scrimmages
+# with proper game state and automatic ball/robot replacement after fouls.
+# Run: docker compose -f docker/compose.standard.yml up
+
+services:
+  grsim:
+    image: robocupssl/grsim:2.4.0
+    network_mode: host
+    restart: unless-stopped
+
+  autoref-tigers:
+    image: tigersmannheim/auto-referee:1.7.1
+    # Active mode: sends events to ssl-game-controller.
+    command: ["-hl", "-a", "--visionAddress", "224.5.23.2:10020"]
+    network_mode: host
+    restart: unless-stopped
+
+  ssl-vision-client:
+    image: robocupssl/ssl-vision-client:2.1.0
+    command: ["-visionAddress", "224.5.23.2:10020"]
+    network_mode: host
+    restart: unless-stopped
+    # UI: http://localhost:8082
+
+  ssl-game-controller:
+    image: robocupssl/ssl-game-controller:3.20.2
+    command:
+      - "-visionAddress"
+      - "224.5.23.2:10020"
+      - "-trackerAddress"
+      - "224.5.23.2:10010"
+      - "-publishAddress"
+      - "224.5.23.1:10003"
+      - "-address"
+      - ":8081"
+    volumes:
+      - ssl-game-controller-config:/config
+    network_mode: host
+    restart: unless-stopped
+    # UI: http://localhost:8081
+
+  ssl-simulation-controller:
+    image: robocupssl/ssl-simulation-controller:0.13.0
+    command:
+      - "-refereeAddress"
+      - "224.5.23.1:10003"
+      - "-visionAddress"
+      - "224.5.23.2:10020"
+      - "-trackerAddress"
+      - "224.5.23.2:10010"
+      - "-simControlPort"
+      - "10300"
+    network_mode: host
+    restart: unless-stopped
+
+volumes:
+  ssl-game-controller-config:
