@@ -1,0 +1,25 @@
+# Tier 1 — minimal
+# grSim simulator + TIGERs autoref (used as tracker) + vision-client web UI.
+# Use this when you just want a field with TrackerWrapperPacket frames flowing.
+# Run: docker compose -f docker/compose.minimal.yml up
+
+services:
+  grsim:
+    image: robocupssl/grsim:2.4.0
+    network_mode: host
+    restart: unless-stopped
+
+  autoref-tigers:
+    image: tigersmannheim/auto-referee:1.7.1
+    # Passive mode (no -a). Still emits TrackerWrapperPacket on 224.5.23.2:10010.
+    # Bump up to compose.standard.yml to run with a game-controller and -a.
+    command: ["-hl", "--visionAddress", "224.5.23.2:10020"]
+    network_mode: host
+    restart: unless-stopped
+
+  ssl-vision-client:
+    image: robocupssl/ssl-vision-client:2.1.0
+    command: ["-visionAddress", "224.5.23.2:10020"]
+    network_mode: host
+    restart: unless-stopped
+    # UI: http://localhost:8082
