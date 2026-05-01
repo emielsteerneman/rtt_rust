@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-prost = "0.13.4" # Protobuf compiler
-prost-types = "0.13.4"
+prost.workspace = true # Protobuf compiler
+prost-types.workspace = true
 
 [build-dependencies]
-prost-build = "0.13.4"
+prost-build.workspace = true

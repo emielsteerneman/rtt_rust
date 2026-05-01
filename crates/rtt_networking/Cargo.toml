@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-prost = "0.14.3"
+prost.workspace = true
 rtt_protos = { path = "../rtt_protos" }
 tracing = "0.1.41"
 anyhow = "1.0.95"

@@ -2,12 +2,12 @@
 use std::cell::RefCell;
 
 // Local libraries
-use protos::messages::Referee;
-use protos::messages::{SslDetectionFrame, SslGeometryData, SslWrapperPacket};
+use rtt_protos::messages::Referee;
+use rtt_protos::messages::{SslDetectionFrame, SslGeometryData, SslWrapperPacket};
 
 use tokio::time::Duration;
 
-use networking::UdpHandler;
+use rtt_networking::UdpHandler;
 
 struct LatestData {
     detection: RefCell<Option<SslDetectionFrame>>,

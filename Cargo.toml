@@ -2,7 +2,12 @@
 resolver = "2"
 
 members = [
-    "crates/networking",
-    "crates/observer",
-    "crates/protos"
+    "crates/rtt_networking",
+    "crates/rtt_observer",
+    "crates/rtt_protos"
 ]
+
+[workspace.dependencies]
+prost = "0.14.3"
+prost-types = "0.14.3"
+prost-build = "0.14.3"
