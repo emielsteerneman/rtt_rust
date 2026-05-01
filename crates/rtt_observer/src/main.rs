@@ -72,11 +72,14 @@ async fn main() -> anyhow::Result<()> {
         referee: RefCell::new(None),
     };
 
-    let port_ssl_vision: u16 = 22222;
-    let port_referee: u16 = 22223;
+    // SSL multicast groups/ports — see docker/README.md.
+    let vision_group: std::net::Ipv4Addr = "224.5.23.2".parse()?;
+    let referee_group: std::net::Ipv4Addr = "224.5.23.1".parse()?;
+    let port_ssl_vision: u16 = 10020;
+    let port_referee: u16 = 10003;
 
-    let vision_receiver = UdpHandler::new(port_ssl_vision).await?;
-    let referee_receiver = UdpHandler::new(port_referee).await?;
+    let vision_receiver = UdpHandler::new(vision_group, port_ssl_vision).await?;
+    let referee_receiver = UdpHandler::new(referee_group, port_referee).await?;
 
     let mut interval = tokio::time::interval(Duration::from_secs_f32(1. / 60.));
 
@@ -87,7 +90,7 @@ async fn main() -> anyhow::Result<()> {
             biased;
 
             _ = interval.tick() => {
-                send_out_data();
+                // send_out_data();
                 // Since we're here, this branch of tokio::select! will complete first, thus the other
                 // branches will be skipped. This means that we will receive no new data, so we can skip the
                 // rest of the loop. Go straight to the next loop to receive new data.

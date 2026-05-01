@@ -1,10 +1,11 @@
 [workspace]
 resolver = "2"
 
-members = [
+members = ["crates/rtt_models",
     "crates/rtt_networking",
     "crates/rtt_observer",
-    "crates/rtt_protos"
+    "crates/rtt_protos",
+    "crates/rtt_models"
 ]
 
 [workspace.dependencies]

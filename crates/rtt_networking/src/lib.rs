@@ -1,6 +1,8 @@
-use tokio::net::UdpSocket;
+use std::net::{Ipv4Addr, SocketAddrV4};
 
 use prost::Message;
+use socket2::{Domain, Protocol, Socket, Type};
+use tokio::net::UdpSocket;
 
 pub struct UdpHandler {
     socket: UdpSocket,
@@ -8,11 +10,33 @@ pub struct UdpHandler {
 }
 
 impl UdpHandler {
-    pub async fn new(port: u16) -> anyhow::Result<Self> {
-        let addr = format!("0.0.0.0:{}", port);
-        tracing::info!("Subscring to UDP on {addr}");
+    pub async fn new(group: Ipv4Addr, port: u16) -> anyhow::Result<Self> {
+        tracing::info!("Subscribing to multicast {group}:{port}");
 
-        let socket = UdpSocket::bind(addr).await?;
+        // Drop down to socket2 because tokio's UdpSocket doesn't let us set
+        // SO_REUSEADDR before bind, which we need for multicast.
+        let socket = Socket::new(Domain::IPV4, Type::DGRAM, Some(Protocol::UDP))?;
+
+        // tokio drives sockets via its async reactor, which requires the
+        // underlying fd to be in non-blocking mode.
+        socket.set_nonblocking(true)?;
+
+        // Multicast is meant for multiple consumers on the same host (e.g.
+        // observer + ssl-vision GUI). Without REUSEADDR the second process to
+        // start would fail to bind the same group:port.
+        socket.set_reuse_address(true)?;
+
+        // IGMP join: tells the kernel (and any IGMP-snooping switch) that this
+        // host wants packets for `group`. Without this, multicast packets are
+        // dropped before they ever reach the socket.
+        socket.join_multicast_v4(&group, &Ipv4Addr::UNSPECIFIED)?;
+
+        // Bind to 0.0.0.0 rather than the group address so we also accept
+        // unicast on this port (e.g. `nc -u 127.0.0.1 <port>` for local tests).
+        socket.bind(&SocketAddrV4::new(Ipv4Addr::UNSPECIFIED, port).into())?;
+
+        // Hand the configured fd off to tokio so we can `await` on it.
+        let socket = UdpSocket::from_std(socket.into())?;
 
         Ok(Self {
             socket,
