@@ -5,7 +5,7 @@ Pick the smallest tier that gives you what you need.
 
 | Tier       | File                  | Services                                                                                          | Use case                                  |
 | ---------- | --------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| `minimal`  | `compose.minimal.yml` | grSim, TIGERs autoref (passive, as tracker), vision-client                                        | Just want tracked frames flowing.         |
+| `minimal`  | `compose.minimal.yml` | ER-Force simulator, TIGERs autoref (passive, as tracker), vision-client                           | Just want tracked frames flowing.         |
 | `standard` | `compose.standard.yml`| + game-controller, + simulation-controller. TIGERs autoref switched to active mode.               | Run scrimmages with proper game state.    |
 | `full`     | `compose.full.yml`    | + status-board, + ER-Force autoref, + quality-inspector.                                          | Tournament-like setup.                    |
 
@@ -46,5 +46,9 @@ These compose files use `network_mode: host`, so anything running on the host
   module still emits `TrackerWrapperPacket` on the tracker channel; it just
   doesn't try to push events to a (nonexistent) game-controller.
 - **Pinned versions.** Image tags are pinned. To bump, check Docker Hub
-  (`robocupssl/*`, `tigersmannheim/auto-referee`, `roboticserlangen/autoref`)
+  (`robocupssl/*`, `tigersmannheim/auto-referee`, `roboticserlangen/*`)
   and update each file.
+- **Simulator choice.** We use ER-Force's headless `simulatorcli` rather than
+  grSim. It runs without a display server (better for CI / servers) and is
+  what the upstream tournament setup defaults to. `GEOMETRY` and `REALISM`
+  env vars pick the field/physics preset.

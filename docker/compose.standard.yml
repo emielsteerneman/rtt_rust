@@ -4,8 +4,11 @@
 # Run: docker compose -f docker/compose.standard.yml up
 
 services:
-  grsim:
-    image: robocupssl/grsim:2.4.0
+  simulator:
+    image: roboticserlangen/simulatorcli:commit-6a4e1c06533b
+    environment:
+      GEOMETRY: "2020"
+      REALISM: "RC2021"
     network_mode: host
     restart: unless-stopped
 

@@ -1,11 +1,14 @@
 # Tier 1 — minimal
-# grSim simulator + TIGERs autoref (used as tracker) + vision-client web UI.
+# ER-Force simulator + TIGERs autoref (used as tracker) + vision-client web UI.
 # Use this when you just want a field with TrackerWrapperPacket frames flowing.
 # Run: docker compose -f docker/compose.minimal.yml up
 
 services:
-  grsim:
-    image: robocupssl/grsim:2.4.0
+  simulator:
+    image: roboticserlangen/simulatorcli:commit-6a4e1c06533b
+    environment:
+      GEOMETRY: "2020"
+      REALISM: "RC2021"
     network_mode: host
     restart: unless-stopped
 
